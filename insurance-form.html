@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insurance Application - Vasim Finance</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+body{background:#0f0f0f;color:#fff}
+
+/* HEADER */
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 25px;
+background:#111;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+color:#e7c26a;
+font-weight:700;
+}
+
+.logo img{width:35px;}
+
+.back{
+color:#e7c26a;
+text-decoration:none;
+font-size:14px;
+}
+
+/* FORM */
+.form-section{
+max-width:750px;
+margin:50px auto;
+background:#181818;
+padding:40px;
+border-radius:16px;
+box-shadow:0 0 30px rgba(0,0,0,0.5);
+}
+
+h2{
+text-align:center;
+color:#e7c26a;
+margin-bottom:8px;
+}
+
+.subtitle{
+text-align:center;
+color:#aaa;
+margin-bottom:35px;
+font-size:14px;
+}
+
+.form-group{
+margin-bottom:22px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+font-size:13px;
+color:#bbb;
+}
+
+input,select{
+width:100%;
+padding:14px;
+border-radius:10px;
+border:1px solid #2a2a2a;
+background:#121212;
+color:#fff;
+font-size:14px;
+outline:none;
+transition:0.3s;
+}
+
+input:focus,select:focus{
+border-color:#e7c26a;
+box-shadow:0 0 8px rgba(231,194,106,0.4);
+}
+
+/* Stylish dropdown */
+select{
+appearance:none;
+background-image:url("data:image/svg+xml;utf8,<svg fill='%23e7c26a' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+background-repeat:no-repeat;
+background-position:right 15px center;
+background-size:18px;
+}
+
+/* Error styling */
+.error{
+color:#ff4d4d;
+font-size:12px;
+margin-top:4px;
+display:none;
+}
+
+.invalid{
+border-color:#ff4d4d !important;
+}
+
+/* Button */
+.btn{
+width:100%;
+padding:15px;
+background:#e7c26a;
+color:#000;
+border:none;
+border-radius:30px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+margin-top:10px;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+box-shadow:0 0 15px rgba(231,194,106,0.6);
+}
+
+footer{
+text-align:center;
+padding:20px;
+background:#0a0a0a;
+color:#777;
+margin-top:40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+<img src="https://i.supaimg.com/1b34b338-d050-498a-9317-227f0cde0ae2/dde757ed-22da-40d7-b50b-c25ec0b24cf3.png">
+Vasim Finance
+</div>
+<a href="insurance.html" class="back">← Back</a>
+</header>
+
+<div class="form-section">
+
+<h2>Insurance Application Form</h2>
+<p class="subtitle">Fill your details and our team will contact you shortly.</p>
+
+<div class="form-group">
+<label>Full Name *</label>
+<input type="text" id="name">
+<div class="error" id="nameError">Please enter your full name</div>
+</div>
+
+<div class="form-group">
+<label>Mobile Number *</label>
+<input type="tel" id="mobile" maxlength="10">
+<div class="error" id="mobileError">Enter valid 10 digit mobile number</div>
+</div>
+
+<div class="form-group">
+<label>City *</label>
+<input type="text" id="city">
+<div class="error" id="cityError">Please enter your city</div>
+</div>
+
+<div class="form-group">
+<label>Insurance Type *</label>
+<select id="plan">
+<option value="">Select Plan</option>
+<option>Motor Insurance</option>
+<option>Health Insurance</option>
+<option>Family Floater Plan</option>
+<option>Senior Citizen Plan</option>
+<option>Personal Accident Insurance</option>
+</select>
+<div class="error" id="planError">Please select a plan</div>
+</div>
+
+<div class="form-group">
+<label>Age *</label>
+<input type="number" id="age">
+<div class="error" id="ageError">Please enter your age</div>
+</div>
+
+<div class="form-group">
+<label>Coverage Amount *</label>
+<select id="coverageSelect">
+<option value="">Select Coverage</option>
+<option>₹2,00,000</option>
+<option>₹5,00,000</option>
+<option>₹10,00,000</option>
+<option>₹20,00,000</option>
+<option>₹50,00,000</option>
+<option value="custom">Enter Manually</option>
+</select>
+<div class="error" id="coverageError">Please select coverage</div>
+</div>
+
+<div class="form-group" id="manualCoverageBox" style="display:none;">
+<label>Enter Custom Coverage</label>
+<input type="text" id="coverageManual">
+</div>
+
+<button class="btn" onclick="submitForm()">Submit</button>
+
+</div>
+
+<footer>
+© 2026 Vasim Finance. All Rights Reserved.
+</footer>
+
+<script>
+
+/* 10 digit strict */
+document.getElementById("mobile").addEventListener("input", function(){
+this.value=this.value.replace(/\D/g,'').slice(0,10);
+});
+
+/* Coverage dropdown toggle */
+document.getElementById("coverageSelect").addEventListener("change", function(){
+if(this.value==="custom"){
+document.getElementById("manualCoverageBox").style.display="block";
+}else{
+document.getElementById("manualCoverageBox").style.display="none";
+}
+});
+
+function showError(id,inputId){
+document.getElementById(id).style.display="block";
+document.getElementById(inputId).classList.add("invalid");
+}
+
+function clearErrors(){
+let errors=document.querySelectorAll(".error");
+errors.forEach(e=>e.style.display="none");
+
+let inputs=document.querySelectorAll("input,select");
+inputs.forEach(i=>i.classList.remove("invalid"));
+}
+
+function submitForm(){
+
+clearErrors();
+
+let name=document.getElementById("name").value.trim();
+let mobile=document.getElementById("mobile").value.trim();
+let city=document.getElementById("city").value.trim();
+let plan=document.getElementById("plan").value;
+let age=document.getElementById("age").value.trim();
+let coverageSelect=document.getElementById("coverageSelect").value;
+let coverageManual=document.getElementById("coverageManual").value.trim();
+let coverage = coverageSelect==="custom" ? coverageManual : coverageSelect;
+
+let valid=true;
+
+if(!name){showError("nameError","name"); valid=false;}
+if(!mobile || mobile.length!==10){showError("mobileError","mobile"); valid=false;}
+if(!city){showError("cityError","city"); valid=false;}
+if(!plan){showError("planError","plan"); valid=false;}
+if(!age){showError("ageError","age"); valid=false;}
+if(!coverage){showError("coverageError","coverageSelect"); valid=false;}
+
+if(!valid) return;
+
+/* WhatsApp autofill */
+let message=
+`Insurance Enquiry:%0A%0A`+
+`Name: ${name}%0A`+
+`Mobile: ${mobile}%0A`+
+`City: ${city}%0A`+
+`Plan: ${plan}%0A`+
+`Age: ${age}%0A`+
+`Coverage: ${coverage}`;
+
+window.open("https://wa.me/917073795403?text="+message,"_blank");
+
+}
+
+</script>
+
+</body>
+</html>
